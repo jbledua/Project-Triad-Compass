@@ -137,7 +137,7 @@ services:
       - "${PUBLIC_PORT_READARR:-8787}:8787"
 
   readarr:
-    image: lscr.io/linuxserver/readarr:latest
+    image: lscr.io/linuxserver/readarr:develop
     container_name: ${STACK_NAME}-readarr
     network_mode: service:readarr-ts
     depends_on:
