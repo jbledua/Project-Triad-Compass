@@ -234,41 +234,41 @@ services:
     restart: unless-stopped
 
   # ----------------------------
-  # PODGRAB (Podcasts)
+  # PODGRAB (Podcasts) - disabled
   # ----------------------------
-  podgrab-ts:
-    image: tailscale/tailscale:latest
-    container_name: ${STACK_NAME}-podgrab-ts
-    hostname: ${TS_HOSTNAME_PODGRAB}
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_USERSPACE=false
-      - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
-    volumes:
-      - podgrab-ts-state:/var/lib/tailscale
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-    restart: unless-stopped
-    ports:
-      - "${PUBLIC_PORT_PODGRAB:-8081}:8080"
-
-  podgrab:
-    image: lscr.io/linuxserver/podgrab:latest
-    container_name: ${STACK_NAME}-podgrab
-    network_mode: service:podgrab-ts
-    depends_on:
-      - podgrab-ts
-    environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TIMEZONE:-America/Toronto}
-    volumes:
-      - podgrab-config:/config
-      - "${PODCASTS_DIR}:/podcasts"
-    restart: unless-stopped
+  # podgrab-ts:
+  #   image: tailscale/tailscale:latest
+  #   container_name: ${STACK_NAME}-podgrab-ts
+  #   hostname: ${TS_HOSTNAME_PODGRAB}
+  #   environment:
+  #     - TS_AUTHKEY=${TS_AUTHKEY}
+  #     - TS_STATE_DIR=/var/lib/tailscale
+  #     - TS_USERSPACE=false
+  #     - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
+  #   volumes:
+  #     - podgrab-ts-state:/var/lib/tailscale
+  #   devices:
+  #     - /dev/net/tun:/dev/net/tun
+  #   cap_add:
+  #     - net_admin
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${PUBLIC_PORT_PODGRAB:-8081}:8080"
+  #
+  # podgrab:
+  #   image: lscr.io/linuxserver/podgrab:latest
+  #   container_name: ${STACK_NAME}-podgrab
+  #   network_mode: service:podgrab-ts
+  #   depends_on:
+  #     - podgrab-ts
+  #   environment:
+  #     - PUID=${PUID:-1000}
+  #     - PGID=${PGID:-1000}
+  #     - TZ=${TIMEZONE:-America/Toronto}
+  #   volumes:
+  #     - podgrab-config:/config
+  #     - "${PODCASTS_DIR}:/podcasts"
+  #   restart: unless-stopped
 
   # ----------------------------
   # OPTIONAL: JACKett (if you choose it instead of Prowlarr)
