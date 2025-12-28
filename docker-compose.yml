@@ -123,44 +123,42 @@ services:
   # ----------------------------
   # READARR (Books / Audiobooks metadata)
   # ----------------------------
-  readarr-ts:
-    image: tailscale/tailscale:latest
-    platform: ${DOCKER_PLATFORM}
-    container_name: ${STACK_NAME}-readarr-ts
-    hostname: ${TS_HOSTNAME_READARR}
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_USERSPACE=false
-      - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
-    volumes:
-      - readarr-ts-state:/var/lib/tailscale
-    devices: 
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-    restart: unless-stopped
-    ports:
-      - "${PUBLIC_PORT_READARR:-8787}:8787"
+  # readarr-ts:
+  #   image: tailscale/tailscale:latest
+  #   container_name: ${STACK_NAME}-readarr-ts
+  #   hostname: ${TS_HOSTNAME_READARR}
+  #   environment:
+  #     - TS_AUTHKEY=${TS_AUTHKEY}
+  #     - TS_STATE_DIR=/var/lib/tailscale
+  #     - TS_USERSPACE=false
+  #     - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
+  #   volumes:
+  #     - readarr-ts-state:/var/lib/tailscale
+  #   devices: 
+  #     - /dev/net/tun:/dev/net/tun
+  #   cap_add:
+  #     - net_admin
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${PUBLIC_PORT_READARR:-8787}:8787"
 
-  readarr:
-    image: lscr.io/linuxserver/readarr:amd64-develop
-    platform: ${DOCKER_PLATFORM}
-    container_name: ${STACK_NAME}-readarr
-    network_mode: service:readarr-ts
-    depends_on:
-      - readarr-ts
-      - prowlarr
-    environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TIMEZONE:-America/Toronto}
-    volumes:
-      - readarr-config:/config
-      - "${DOWNLOADS_DIR}:/downloads"
-      - "${BOOKS_DIR}:/books"
-      - "${AUDIOBOOKS_DIR}:/audiobooks"
-    restart: unless-stopped
+  # readarr:
+  #   image: lscr.io/linuxserver/readarr:develop
+  #   container_name: ${STACK_NAME}-readarr
+  #   network_mode: service:readarr-ts
+  #   depends_on:
+  #     - readarr-ts
+  #     - prowlarr
+  #   environment:
+  #     - PUID=${PUID:-1000}
+  #     - PGID=${PGID:-1000}
+  #     - TZ=${TIMEZONE:-America/Toronto}
+  #   volumes:
+  #     - readarr-config:/config
+  #     - "${DOWNLOADS_DIR}:/downloads"
+  #     - "${BOOKS_DIR}:/books"
+  #     - "${AUDIOBOOKS_DIR}:/audiobooks"
+  #   restart: unless-stopped
 
   # ----------------------------
   # LIDARR (Music)
@@ -335,10 +333,10 @@ volumes:
   sonarr-config:
       name: ${STACK_NAME}-sonarr-config
 
-  readarr-ts-state:
-    name: ${STACK_NAME}-readarr-ts-state
-  readarr-config:
-    name: ${STACK_NAME}-readarr-config
+  # readarr-ts-state:
+  #   name: ${STACK_NAME}-readarr-ts-state
+  # readarr-config:
+  #   name: ${STACK_NAME}-readarr-config
 
   lidarr-ts-state:
     name: ${STACK_NAME}-lidarr-ts-state
