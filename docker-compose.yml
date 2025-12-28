@@ -5,6 +5,7 @@ services:
   # ----------------------------
   prowlarr-ts:
     image: tailscale/tailscale:latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-prowlarr-ts
     hostname: ${TS_HOSTNAME_PROWLARR}
     environment:
@@ -23,7 +24,8 @@ services:
       - "${PUBLIC_PORT_PROWLARR:-9696}:9696"
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:amd64-latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-prowlarr
     network_mode: service:prowlarr-ts
     depends_on:
@@ -41,6 +43,7 @@ services:
   # ----------------------------
   radarr-ts:
     image: tailscale/tailscale:latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-radarr-ts
     hostname: ${TS_HOSTNAME_RADARR}
     environment:
@@ -59,7 +62,8 @@ services:
       - "${PUBLIC_PORT_RADARR:-7878}:7878"
 
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:amd64-latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-radarr
     network_mode: service:radarr-ts
     depends_on:
@@ -80,6 +84,7 @@ services:
   # ----------------------------
   sonarr-ts:
     image: tailscale/tailscale:latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-sonarr-ts
     hostname: ${TS_HOSTNAME_SONARR}
     environment:
@@ -98,7 +103,8 @@ services:
       - "${PUBLIC_PORT_SONARR:-8989}:8989"
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:amd64-latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-sonarr
     network_mode: service:sonarr-ts
     depends_on:
@@ -119,6 +125,7 @@ services:
   # ----------------------------
   readarr-ts:
     image: tailscale/tailscale:latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-readarr-ts
     hostname: ${TS_HOSTNAME_READARR}
     environment:
@@ -137,7 +144,8 @@ services:
       - "${PUBLIC_PORT_READARR:-8787}:8787"
 
   readarr:
-    image: lscr.io/linuxserver/readarr:develop
+    image: lscr.io/linuxserver/readarr:amd64-develop
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-readarr
     network_mode: service:readarr-ts
     depends_on:
@@ -159,6 +167,7 @@ services:
   # ----------------------------
   lidarr-ts:
     image: tailscale/tailscale:latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-lidarr-ts
     hostname: ${TS_HOSTNAME_LIDARR}
     environment:
@@ -177,7 +186,8 @@ services:
       - "${PUBLIC_PORT_LIDARR:-8686}:8686"
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:amd64-latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-lidarr
     network_mode: service:lidarr-ts
     depends_on:
@@ -198,6 +208,7 @@ services:
   # ----------------------------
   bazarr-ts:
     image: tailscale/tailscale:latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-bazarr-ts
     hostname: ${TS_HOSTNAME_BAZARR}
     environment:
@@ -216,7 +227,8 @@ services:
       - "${PUBLIC_PORT_BAZARR:-6767}:6767"
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:amd64-latest
+    platform: ${DOCKER_PLATFORM}
     container_name: ${STACK_NAME}-bazarr
     network_mode: service:bazarr-ts
     depends_on:
