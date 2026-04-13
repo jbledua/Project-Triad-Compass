@@ -12,7 +12,7 @@ services:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
-      - "TS_EXTRA_ARGS=--advertise-tags=tag:container --reset"
+      - "TS_EXTRA_ARGS=-reset"
     volumes:
       - prowlarr-ts-state:/var/lib/tailscale
     devices:
