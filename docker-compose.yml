@@ -18,7 +18,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
-      - net_admin
+      - NET_ADMIN
+      - NET_RAW
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 20s
     restart: unless-stopped
     ports:
       - "${PUBLIC_PORT_PROWLARR:-9696}:9696"
@@ -29,7 +36,8 @@ services:
     container_name: ${STACK_NAME}-prowlarr
     network_mode: service:prowlarr-ts
     depends_on:
-      - prowlarr-ts
+      prowlarr-ts:
+        condition: service_healthy
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -56,7 +64,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
-      - net_admin
+      - NET_ADMIN
+      - NET_RAW
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 20s
     restart: unless-stopped
     ports:
       - "${PUBLIC_PORT_RADARR:-7878}:7878"
@@ -67,8 +82,10 @@ services:
     container_name: ${STACK_NAME}-radarr
     network_mode: service:radarr-ts
     depends_on:
-      - radarr-ts
-      - prowlarr
+      radarr-ts:
+        condition: service_healthy
+      prowlarr:
+        condition: service_started
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -97,7 +114,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
-      - net_admin
+      - NET_ADMIN
+      - NET_RAW
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 20s
     restart: unless-stopped
     ports:
       - "${PUBLIC_PORT_SONARR:-8989}:8989"
@@ -108,8 +132,10 @@ services:
     container_name: ${STACK_NAME}-sonarr
     network_mode: service:sonarr-ts
     depends_on:
-      - sonarr-ts
-      - prowlarr
+      sonarr-ts:
+        condition: service_healthy
+      prowlarr:
+        condition: service_started
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -178,7 +204,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
-      - net_admin
+      - NET_ADMIN
+      - NET_RAW
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 20s
     restart: unless-stopped
     ports:
       - "${PUBLIC_PORT_LIDARR:-8686}:8686"
@@ -189,8 +222,10 @@ services:
     container_name: ${STACK_NAME}-lidarr
     network_mode: service:lidarr-ts
     depends_on:
-      - lidarr-ts
-      - prowlarr
+      lidarr-ts:
+        condition: service_healthy
+      prowlarr:
+        condition: service_started
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -219,7 +254,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
-      - net_admin
+      - NET_ADMIN
+      - NET_RAW
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 20s
     restart: unless-stopped
     ports:
       - "${PUBLIC_PORT_BAZARR:-6767}:6767"
@@ -230,9 +272,12 @@ services:
     container_name: ${STACK_NAME}-bazarr
     network_mode: service:bazarr-ts
     depends_on:
-      - bazarr-ts
-      - radarr
-      - sonarr
+      bazarr-ts:
+        condition: service_healthy
+      radarr:
+        condition: service_started
+      sonarr:
+        condition: service_started
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
